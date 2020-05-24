@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing App</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div id="stage">
+            <canvas width="700" height="500" id="main"></canvas>
+            <canvas width="700" height="500" id="model"></canvas>
+            <canvas width="700" height="500" id="trace"></canvas>
+        </div>
+
+    </div>
+
+    <div class="toolbar-container">
+        <div class="shapes">
+            <button id="MyShape" class="btn" type="button" title="MyShape" style="display: none;"></button>
+        </div>
+
+        <div class="actions">
+            <button id="clear" class="btn-clear" type="button">Clear</button>
+        </div>
+    </div>
+
+    <div class="tracer-display">
+        <div class="tracer-position">
+            <label for="x">x: </label>
+            <input type="text" name="x" size="5"></input>
+        </div>
+        <div class="tracer-position">
+            <label for="y">y: </label>
+            <input type="text" name="y" size="5"></input>
+        </div>
+    </div>
+
+    <script src="include/shape.js"></script>
+    <script src="include/dispatcher.js"></script>
+    <script src="include/canvas.js"></script>
+    <script src="include/stage.js"></script>
+    <script src="include/jquery.mousewheel.js"></script>
+    
+
+    <script>
+
+        var stage = new Stage(
+            $("#stage").find("#main").get(0), 
+            $("#stage").find("#model").get(0), 
+            $("#stage").find("#trace").get(0));
+    
+        var dispatcher = new Dispatcher(stage);
+        var shape = new MyShape();
+        var color = "rgb(0, 0, 0)";
+    
+        $(document).ready(function() {
+    
+            /**
+             * Trigger clisk event at black=color button, 
+             * to pick black color as default.
+             */
+            $('.color-container').find(".btn.btn-black").click();
+           
+            /**
+             * Even handlers for shape-buttons
+             */
+    
+            $("#MyShape").on("click", function(event){
+                shape = new MyShape();
+                shape.setColor(color);
+            });
+    
+            $("#clear").on("click", function(event){
+                stage.clear();
+            });
+        
+            /**
+             * Trace the mouse pointer and process its click
+             */
+            $("#trace").bind("mousemove click", function(event) {
+                dispatcher.dispatch(event, shape);
+            });
+
+            $("#trace").bind("mousewheel", function(event) {
+                dispatcher.dispatch(event, shape);
+            });
+    
+            /**
+             * Trace ESC key-up event
+             */
+            $(document).bind("keyup", function(event) {
+                if (event.key === "Escape") {
+                    dispatcher.dispatch(event, shape);
+                }
+            });
+    
+        });
+    </script>
+</body>
+</html>
