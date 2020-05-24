@@ -65,12 +65,11 @@ class Dispatcher {
             };
             
             this.stage.main.clear(props);
-            this.stage.main.setZoom(1);
 
             if (event.deltaY > 0) {
-                this.stage.main.zoomIn()
+                $("input[name='zoom']").val(this.stage.main.zoomIn());
             } else {
-                this.stage.main.zoomOut()
+                $("input[name='zoom']").val(this.stage.main.zoomOut());
             }
             
             this.stage.main.draw(shape, {});

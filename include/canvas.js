@@ -7,7 +7,6 @@ class Canvas {
     constructor(canvas) {
         this.view = canvas;
         this.context = canvas.getContext('2d');
-        this.zoom = 1;
     }
 
     clear(props) {
@@ -32,30 +31,28 @@ class Canvas {
         this.context.scale(x, y);
     }
     
-    setZoom(z) {
-        this.zoom = z;
-        this.context.scale(this.zoom, this.zoom);
-        return this.zoom;
+    getZoomFactor() {
+        return Math.abs(this.context.getTransform().a);
+    }
+    
+    setZoomFactor(z) {
+        let tmatrix = this.context.getTransform();
+        tmatrix.a = Math.sign(tmatrix.a) * z;
+        tmatrix.d = Math.sign(tmatrix.d) * z;
+        this.context.setTransform(tmatrix);
+        return Math.abs(tmatrix.a) * z;
     }
 
     zoomIn() {
-        if (this.zoom < 1) {
-            this.zoom += 1/10;
-        } else {
-            this.zoom += 0.5;
-        }
-        this.context.scale(this.zoom, this.zoom);
-        return this.zoom;
+        this.setZoomFactor(this.getZoomFactor() + 0.2);
+        // return this.context.getTransform();
+        return this.getZoomFactor().toFixed(2);
     }
 
     zoomOut() {
-        if (this.zoom <= 1) {
-            this.zoom -= 1/10;
-        } else {
-            this.zoom -= 0.5;
-        }
-        this.context.scale(this.zoom, this.zoom);
-        return this.zoom;
+        this.setZoomFactor(this.getZoomFactor() - 0.2);
+        // return this.context.getTransform();
+        return this.getZoomFactor().toFixed(2);
     }
 }
 

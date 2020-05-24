@@ -267,14 +267,15 @@ class MyShape extends Shape {
         // return Math.pow(0.5 * x, 2) - 10;
         
         // -- cubic function:
-        // return Math.pow(0.05 * x, 3);
+        return Math.pow(0.05 * x, 3);
 
         // -- sin/cose
         // return  10 * Math.sin(0.3 * x);
-        return  30 * Math.cos(0.05 * x);
+        // return  30 * Math.cos(0.05 * x);
         
         
         // return -1.5 * x + 30;
         // return -x;
+        // return x;
     }
 }
