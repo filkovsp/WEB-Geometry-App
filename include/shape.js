@@ -187,22 +187,52 @@ class Rectangle extends Shape {
     }
 }
 
+/**
+ * TODO: rename this class to Grid
+ */
 class Hatch extends Shape {
     constructor() {
         super();
     }
     
+    /**
+     * Draws grid of coordiantes
+     * @param {Canvas} canvas Canavas to draw at
+     * @param {Object} props Reserved container for additiona params
+     */
     draw(canvas, props) {
-        let offsetX = Math.round(canvas.view.width/2);
-        let offsetY = Math.round(canvas.view.height/2);
+        let vwp = canvas.getViewPort();
 
-        canvas.context.beginPath();
         canvas.context.strokeStyle = this.color;
-        canvas.context.moveTo(offsetX, 0);
-        canvas.context.lineTo(offsetX, canvas.view.height);
-        canvas.context.moveTo(0, offsetY);
-        canvas.context.lineTo(canvas.view.width, offsetY);
+        canvas.context.lineWidth = 3;
+        canvas.context.beginPath();
+        canvas.context.moveTo(vwp.min.x, 0);
+        canvas.context.lineTo(vwp.max.x, 0);
+        canvas.context.moveTo(0, vwp.min.y);
+        canvas.context.lineTo(0, vwp.max.y);
         canvas.context.stroke();
+
+        canvas.context.lineWidth = 0.1;
+        canvas.context.beginPath();
+        let step = 50;
+        for (let x = step; x < vwp.max.x; x += step) {
+            canvas.context.moveTo(x, vwp.min.y);
+            canvas.context.lineTo(x, vwp.max.y);
+            canvas.context.stroke();
+            canvas.context.moveTo(-x, vwp.min.y);
+            canvas.context.lineTo(-x, vwp.max.y);
+            canvas.context.stroke();
+        }
+
+        for (let y = step; y < vwp.max.y; y += step) {
+            canvas.context.moveTo(vwp.min.x, y);
+            canvas.context.lineTo(vwp.max.x, y);
+            canvas.context.stroke();
+            canvas.context.moveTo(vwp.min.x, -y);
+            canvas.context.lineTo(vwp.max.x, -y);
+            canvas.context.stroke();
+        }
+
     }
 }
 
@@ -235,13 +265,14 @@ class MyShape extends Shape {
     }
 
     draw(canvas, props) {
-
-        let offsetX = Math.round(canvas.view.width/2);
-        let offsetY = Math.round(canvas.view.height/2);
         let dots = new Array();
+        let vwp = canvas.getViewPort();
 
-        for (let x = (-1) * offsetX; x <= offsetX; x+=1) {
-            if((-1) * offsetY < this.f(x) && this.f(x) < offsetY) {
+        /**
+         * TODO: consider also scale factor here
+         */
+        for (let x = vwp.min.x; x <= vwp.max.x; x+=1) {
+            if(vwp.min.y < this.f(x) && this.f(x) < vwp.max.y) {
                 dots.push({
                     x: x, 
                     y: this.f(x)
@@ -254,7 +285,6 @@ class MyShape extends Shape {
         canvas.context.moveTo(dots[0].x, dots[0].y);
         for (let i=1; i < dots.length; i++) {
             canvas.context.lineTo(dots[i].x, dots[i].y);
-            // console.log({x: dots[i].x, y: dots[i].y});
         }
         canvas.context.stroke();
     }

@@ -25,28 +25,24 @@ class Stage {
         this.trace.context.setLineDash([1, 3]);
         this.model.context.setLineDash([1, 1]);
         
-        // translate context to center of canvas
-        this.main.context.translate(this.trace.view.width/2, this.trace.view.height/2);
+        // translate context to the center of canvas
+        this.main.translate(this.trace.view.width/2, this.trace.view.height/2);
+        this.model.translate(this.trace.view.width/2, this.trace.view.height/2);
 
         // flip vertically:
         this.main.setScale(1, -1);
+        this.model.setScale(1, -1);
     
     }
 
     clear() {
-        let props = {
-            x: -this.trace.view.width/2,
-            y: -this.trace.view.height/2,
-            w: this.trace.view.width,
-            h: this.trace.view.height
-        };
-        
-        this.main.clear(props);
-        this.main.context.resetTransform();
-        
+        this.main.clear();
         this.model.clear();
-        this.trace.clear();
-        
+    }
+
+    clearAndReset() {
+        this.main.clear();
+        this.model.clear();
         this.init();
     }
 }
