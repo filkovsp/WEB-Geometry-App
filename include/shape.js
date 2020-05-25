@@ -204,7 +204,7 @@ class Hatch extends Shape {
         let vwp = canvas.getViewPort();
 
         canvas.context.strokeStyle = this.color;
-        canvas.context.lineWidth = 3;
+        canvas.context.lineWidth = 2.5;
         canvas.context.beginPath();
         canvas.context.moveTo(vwp.min.x, 0);
         canvas.context.lineTo(vwp.max.x, 0);
@@ -212,7 +212,8 @@ class Hatch extends Shape {
         canvas.context.lineTo(0, vwp.max.y);
         canvas.context.stroke();
 
-        canvas.context.lineWidth = 0.1;
+        canvas.context.strokeStyle = "rgb(200, 200, 230)";
+        canvas.context.lineWidth = 0.05;
         canvas.context.beginPath();
         let step = 50;
         for (let x = step; x < vwp.max.x; x += step) {

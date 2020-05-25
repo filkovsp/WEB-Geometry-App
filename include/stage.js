@@ -23,7 +23,7 @@ class Stage {
           
         // Decorate line styles for tarcing and modelling layers:
         this.trace.context.setLineDash([1, 3]);
-        this.model.context.setLineDash([1, 1]);
+        this.model.context.setLineDash([1, 2]);
         
         // translate context to the center of canvas
         this.main.translate(this.trace.view.width/2, this.trace.view.height/2);
