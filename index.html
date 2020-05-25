@@ -23,7 +23,7 @@
 
     <div class="toolbar-container">
         <div class="shapes">
-            <button id="MyShape" class="btn" type="button" title="MyShape" style="display: none;"></button>
+            <button id="Graph" class="btn" type="button" title="Graph" style="display: none;"></button>
         </div>
 
         <div class="actions">
@@ -61,7 +61,7 @@
             $("#stage").find("#trace").get(0));
     
         var dispatcher = new Dispatcher(stage);
-        var shape = new MyShape();
+        var shape = new Graph();
         var color = "rgb(0, 0, 0)";
     
         $(document).ready(function() {
@@ -76,8 +76,8 @@
              * Even handlers for shape-buttons
              */
     
-            $("#MyShape").on("click", function(event){
-                shape = new MyShape();
+            $("#Graph").on("click", function(event){
+                shape = new Graph();
                 shape.setColor(color);
             });
     

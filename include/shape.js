@@ -277,7 +277,7 @@ class Trace extends Shape {
 }
 
 
-class MyShape extends Shape {
+class Graph extends Shape {
     constructor() {
         super();
     }
