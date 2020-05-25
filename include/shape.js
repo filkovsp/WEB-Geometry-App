@@ -269,11 +269,11 @@ class MyShape extends Shape {
         let dots = new Array();
         let vwp = canvas.getViewPort();
 
-        /**
-         * TODO: consider also scale factor here
-         */
-        for (let x = vwp.min.x; x <= vwp.max.x; x+=1) {
-            if(vwp.min.y < this.f(x) && this.f(x) < vwp.max.y) {
+        for (let x = vwp.min.x / canvas.getZoomFactor(); x <= vwp.max.x; x+=1) {
+            if (
+                this.f(x) > vwp.min.y / canvas.getZoomFactor() && 
+                this.f(x) < vwp.max.y / canvas.getZoomFactor()
+            ) {
                 dots.push({
                     x: x, 
                     y: this.f(x)

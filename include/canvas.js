@@ -8,14 +8,26 @@ class Canvas {
         this.view = canvas;
         this.context = canvas.getContext('2d');
         this.frame = {x: 0, y: 0, w: this.view.width, h: this.view.height};
+        this.zoomStep = 0.2;
     }
 
     draw(shape, props) {
         shape.draw(this, props);
     }
 
+    /**
+     * Clears all visible area.
+     * visible area is a "phisical" canvas 
+     * being projected on to context
+     * and scaled to the scale factor.
+     */
     clear() {
-        this.context.clearRect(this.frame.x, this.frame.y, this.frame.w, this.frame.h);
+        this.context.clearRect(
+            this.frame.x / this.getZoomFactor(), 
+            this.frame.y / this.getZoomFactor(), 
+            this.frame.w / this.getZoomFactor(), 
+            this.frame.h / this.getZoomFactor()
+        );
     }
 
     clearAndReset() {
@@ -24,10 +36,10 @@ class Canvas {
     }
 
     /**
-     * context.scale(x, y)
+     * Adds a scaling transformation to the canvas units horizontally and/or vertically
      * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale
-     * @param {number} x 
-     * @param {number} y 
+     * @param {number} x Scale factor for x axis
+     * @param {number} y Scale factor for y axis
      */
     setScale(x, y) {
         this.context.scale(x, y);
@@ -52,17 +64,25 @@ class Canvas {
         let tmatrix = this.context.getTransform();
         tmatrix.a = Math.sign(tmatrix.a) * z;
         tmatrix.d = Math.sign(tmatrix.d) * z;
+        /**
+         * context.setTransform(tmatrix) method
+         * resets (overrides) the current transformation to the identity matrix
+         */
         this.context.setTransform(tmatrix);
         return Math.abs(tmatrix.a) * z;
     }
 
     zoomIn() {
-        this.setZoomFactor(this.getZoomFactor() + 0.2);
+        this.setZoomFactor(this.getZoomFactor() + this.zoomStep);
         return this.getZoomFactor().toFixed(2);
     }
 
     zoomOut() {
-        this.setZoomFactor(this.getZoomFactor() - 0.2);
+        // limit min(Zoom Factor) to a single Zoom Step value:
+        if (this.getZoomFactor() > 2 * this.zoomStep) {
+            this.setZoomFactor(this.getZoomFactor() - this.zoomStep);
+        }
+        
         return this.getZoomFactor().toFixed(2);
     }
 
@@ -93,7 +113,15 @@ class Canvas {
     }
 
     /**
-     * coordinates for thet phisical canvas being projected on virtual cantext
+     * Returns coordinates on a virtual context area,
+     * for the "phisical" canvas being projected on the "virtual cantext":
+     * 
+     *    .  . . . . . . . 
+     *    . _________    .
+     *    . |        |   .
+     *    . |________|   .
+     *    . . .  . . . . .
+     * 
      */
     getViewPort() {
         return {
@@ -102,13 +130,3 @@ class Canvas {
         };
     }
 }
-
-/**
- * scale() - adds a scaling transformation to the canvas units horizontally and/or vertically
- * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale
- * 
- * setTransform() - resets (overrides) the current transformation to the identity matrix
- * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setTransform
- * 
- * 
- */

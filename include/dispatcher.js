@@ -57,14 +57,7 @@ class Dispatcher {
         else if (["mousewheel", "scroll"].some(e => (e == event.type))) {
             
             // Zoom in/out with mouse-wheel:
-            let props = {
-                x: -this.stage.main.view.width/2,
-                y: -this.stage.main.view.height/2,
-                w: this.stage.main.view.width,
-                h: this.stage.main.view.height
-            };
-            
-            this.stage.main.clear(props);
+            this.stage.main.clear();
 
             if (event.deltaY > 0) {
                 $("input[name='zoom']").val(this.stage.main.zoomIn());
