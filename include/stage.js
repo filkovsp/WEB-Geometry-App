@@ -41,8 +41,8 @@ class Stage {
     }
 
     clearAndReset() {
-        this.main.clear();
-        this.model.clear();
+        this.main.clearAndReset();
+        this.model.clearAndReset();
         this.init();
     }
 }

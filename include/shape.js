@@ -45,6 +45,21 @@ class Shape {
     }
 
     /**
+     * Method that validates
+     * whether we receive in props just to points {start: {x, y}, end: {x, y}}
+     * or, this is shape-speciwic params for drawing particular shape.
+     * I you use this method in CHild class, then make sure you implement also
+     * getPropsFromCoordinates() in the same class.
+     * @param {*} props 
+     */
+    validateProps(props) {
+        if (typeof(props) === "object" && ["start", "end"].every(key => props.hasOwnProperty(key))) {
+            return this.getPropsFromCoordinates(props);
+        }
+        return props;
+    }
+
+    /**
      * Interface to the Shape's Draw mathod.
      * Draws the Shape on the canvas with the given coordinates in props
      * @param {Canvas} canvas 
@@ -64,6 +79,10 @@ class Shape {
      */
 }
 
+/**************************************************************************
+ * Set of concrete classes below 
+ * that each reperesents a perticular shape on a canvas.
+ -------------------------------------------------------------------------*/
 class Circle extends Shape {
     constructor() {
         super();
@@ -75,6 +94,7 @@ class Circle extends Shape {
      * @param {Object} props Object containing properties {x, y, r}
      */
     draw(canvas, props) {
+        props = this.validateProps(props);
         canvas.context.strokeStyle = this.color;
         canvas.context.beginPath();
         canvas.context.arc(props.x, props.y, props.r, 0, 2*Math.PI);
@@ -97,11 +117,6 @@ class Circle extends Shape {
     }
 }
 
-/**
- * TODO:
- * Add class Ellipse
- * that uses context.ellipse() method
- */
 class Ellipse extends Shape {
     constructor() {
         super();
@@ -113,6 +128,7 @@ class Ellipse extends Shape {
      * @param {Object} props Object containing properties {x, y, rX, rY, rA}
      */
     draw(canvas, props) {
+        props = this.validateProps(props);
         canvas.context.strokeStyle = this.color;
         canvas.context.beginPath();
         canvas.context.ellipse(props.x, props.y, props.rX, props.rY, props.rA, 0, 2*Math.PI);
@@ -164,6 +180,7 @@ class Rectangle extends Shape {
          * refer fo Context-API:
          * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/strokeRect
          */
+        props = this.validateProps(props);
         canvas.context.strokeStyle = this.color;
         canvas.context.beginPath();
         canvas.context.moveTo(props.x, props.y);
