@@ -98,7 +98,8 @@ class Circle extends Shape {
         canvas.context.strokeStyle = this.color;
         canvas.context.beginPath();
         canvas.context.arc(props.x, props.y, props.r, 0, 2*Math.PI);
-        canvas.context.stroke();           
+        canvas.context.stroke();
+        canvas.context.closePath();
     }
 
     /**
@@ -132,7 +133,8 @@ class Ellipse extends Shape {
         canvas.context.strokeStyle = this.color;
         canvas.context.beginPath();
         canvas.context.ellipse(props.x, props.y, props.rX, props.rY, props.rA, 0, 2*Math.PI);
-        canvas.context.stroke();  
+        canvas.context.stroke();
+        canvas.context.closePath();
     }
 
     /**
@@ -189,6 +191,7 @@ class Rectangle extends Shape {
         canvas.context.lineTo(props.x, props.y + props.h);
         canvas.context.lineTo(props.x, props.y);
         canvas.context.stroke();
+        canvas.context.closePath();
     }
 
     /**
@@ -228,6 +231,7 @@ class Hatch extends Shape {
         canvas.context.moveTo(0, vwp.min.y);
         canvas.context.lineTo(0, vwp.max.y);
         canvas.context.stroke();
+        canvas.context.closePath();
 
         canvas.context.strokeStyle = "rgb(200, 200, 230)";
         canvas.context.lineWidth = 0.05;
@@ -250,6 +254,7 @@ class Hatch extends Shape {
             canvas.context.lineTo(vwp.max.x, -y);
             canvas.context.stroke();
         }
+        canvas.context.closePath();
 
     }
 }
@@ -273,6 +278,7 @@ class Trace extends Shape {
         canvas.context.moveTo(0, props.y);
         canvas.context.lineTo(canvas.view.width, props.y);
         canvas.context.stroke();
+        canvas.context.closePath();
     }
 }
 
