@@ -210,7 +210,7 @@ class Rectangle extends Shape {
 /**
  * TODO: rename this class to Grid
  */
-class Hatch extends Shape {
+class Grid extends Shape {
     constructor() {
         super();
     }

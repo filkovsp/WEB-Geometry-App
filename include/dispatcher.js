@@ -11,7 +11,7 @@ class Dispatcher {
     constructor(stage) {
         this.stage = stage;
         this.tracer = new Trace();
-        this.hatch = new Hatch()
+        this.grid = new Grid()
         this.init();
     }
 
@@ -28,8 +28,8 @@ class Dispatcher {
         
         // Set tracing line color to red-ish.
         this.tracer.setColor("rgb(150, 0, 0)");
-        this.hatch.setColor("rgb(81, 171, 255)");
-        this.stage.model.draw(this.hatch, {});
+        this.grid.setColor("rgb(81, 171, 255)");
+        this.stage.model.draw(this.grid, {});
     }
 
     /**
@@ -51,7 +51,7 @@ class Dispatcher {
         if (event.type == "click" && shape.constructor.name == "Shape") {
             alert("Pick a Shape from the tool bar!");
         } else if (event.type == "click") {        
-            this.stage.model.draw(this.hatch, {});
+            this.stage.model.draw(this.grid, {});
             this.stage.main.draw(shape, {});
         } 
         else if (["mousewheel", "scroll"].some(e => (e == event.type))) {
