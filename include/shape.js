@@ -98,8 +98,8 @@ class Circle extends Shape {
         canvas.context.strokeStyle = this.color;
         canvas.context.beginPath();
         canvas.context.arc(props.x, props.y, props.r, 0, 2*Math.PI);
-        canvas.context.stroke();
         canvas.context.closePath();
+        canvas.context.stroke();
     }
 
     /**
@@ -133,8 +133,8 @@ class Ellipse extends Shape {
         canvas.context.strokeStyle = this.color;
         canvas.context.beginPath();
         canvas.context.ellipse(props.x, props.y, props.rX, props.rY, props.rA, 0, 2*Math.PI);
-        canvas.context.stroke();
         canvas.context.closePath();
+        canvas.context.stroke();
     }
 
     /**
@@ -190,8 +190,8 @@ class Rectangle extends Shape {
         canvas.context.lineTo(props.x + props.w, props.y + props.h);
         canvas.context.lineTo(props.x, props.y + props.h);
         canvas.context.lineTo(props.x, props.y);
-        canvas.context.stroke();
         canvas.context.closePath();
+        canvas.context.stroke();
     }
 
     /**
@@ -231,7 +231,6 @@ class Grid extends Shape {
         canvas.context.moveTo(0, vwp.min.y);
         canvas.context.lineTo(0, vwp.max.y);
         canvas.context.stroke();
-        canvas.context.closePath();
 
         canvas.context.strokeStyle = "rgb(200, 200, 230)";
         canvas.context.lineWidth = 0.05;
@@ -254,8 +253,6 @@ class Grid extends Shape {
             canvas.context.lineTo(vwp.max.x, -y);
             canvas.context.stroke();
         }
-        canvas.context.closePath();
-
     }
 }
 
@@ -278,7 +275,6 @@ class Trace extends Shape {
         canvas.context.moveTo(0, props.y);
         canvas.context.lineTo(canvas.view.width, props.y);
         canvas.context.stroke();
-        canvas.context.closePath();
     }
 }
 
@@ -325,13 +321,12 @@ class Graph extends Shape {
 
         // -- sin/cose
         // return  10 * Math.sin(0.3 * x);
-        // return  30 * Math.cos(0.05 * x);
+        return  30 * Math.cos(0.05 * x);
         /**
          * TODO: fix a bug
          * this has a bug when being zoomed out.
          * graph is limitted on positive x values.
          */
-        return  30 * Math.cos(x);
         
         
         // return -1.5 * x + 30;
