@@ -40,7 +40,7 @@ class Shape {
      * starting and ending points.
      * @param {Object} coordinates {start: {x, y}, end: {x, y}}
      */
-    getPropsFromCoordinates({start, end}) {
+    getPropsFromCoordinates(coordinates) {
         throw new Error("implement this method in Child class");
     }
 
@@ -321,11 +321,17 @@ class Graph extends Shape {
         // return Math.pow(0.5 * x, 2) - 10;
         
         // -- cubic function:
-        return Math.pow(0.05 * x, 3);
+        // return Math.pow(0.05 * x, 3);
 
         // -- sin/cose
         // return  10 * Math.sin(0.3 * x);
         // return  30 * Math.cos(0.05 * x);
+        /**
+         * TODO: fix a bug
+         * this has a bug when being zoomed out.
+         * graph is limitted on positive x values.
+         */
+        return  30 * Math.cos(x);
         
         
         // return -1.5 * x + 30;
