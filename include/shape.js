@@ -280,8 +280,9 @@ class Trace extends Shape {
 
 
 class Graph extends Shape {
-    constructor() {
+    constructor(type=0) {
         super();
+        this.type = type;
     }
 
     draw(canvas, props) {
@@ -310,18 +311,27 @@ class Graph extends Shape {
     }
 
     f(x) {
-        
-        // -- square function:
-        // return  Math.pow(0.6 * x, 2); // (0.1 * x) * ( 0.1 * x)
-        // return Math.pow(0.1 * x, 2) * 2 + 2 * x + 150;
-        // return Math.pow(0.5 * x, 2) - 10;
-        
-        // -- cubic function:
-        // return Math.pow(0.05 * x, 3);
+        let curve;
+        switch (this.type) {
+            case "0":
+                curve = 30 * Math.sin(0.05 * x);
+                break;
+            case "1":
+                curve = 30 * Math.cos(0.05 * x);
+                break;
+            case "2":
+                curve = Math.pow(0.5 * x, 2) * 0.2 - 100;
+                break;
+            case "3":
+                curve = Math.pow(0.05 * x, 3);
+                break;
+            case "4":
+                curve = 1.5 * x + 30;
+                break;
+            default:
+                break;
+        }
 
-        // -- sin/cose
-        // return  10 * Math.sin(0.3 * x);
-        return  30 * Math.cos(0.05 * x);
         /**
          * TODO: fix a bug
          * this has a bug when being zoomed out.
@@ -329,8 +339,9 @@ class Graph extends Shape {
          */
         
         
-        // return -1.5 * x + 30;
+        // return 
         // return -x;
         // return x;
+        return curve;
     }
 }

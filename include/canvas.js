@@ -105,6 +105,12 @@ class Canvas {
      * @param {number} y Context offset by Y axis
      */
     translate(x, y) {
+        /**
+         * TODO:
+         * this must create a bug when projected a viewport at the scaled context. 
+         * So, zoomFactor also should be taken into consideration and used
+         * when we get ViewPort values below.
+         */
         this.frame.x = -1 * Math.max(0, x);
         this.frame.y = -1 * Math.max(0, y);
         this.frame.w = this.view.width + Math.abs(x);
@@ -124,9 +130,26 @@ class Canvas {
      * 
      */
     getViewPort() {
+        // return {
+        //     min: {
+        //             x: this.frame.x / this.getZoomFactor(), 
+        //             y: this.frame.y / this.getZoomFactor()
+        //         },
+        //     max: {
+        //         x: (this.view.width + this.frame.x) / this.getZoomFactor(), 
+        //         y: (this.view.height + this.frame.y) / this.getZoomFactor()
+        //     }
+        // };
+
         return {
-            min: {x: this.frame.x, y: this.frame.y},
-            max: {x: this.view.width + this.frame.x, y: this.view.height + this.frame.y}
+            min: {
+                x: this.frame.x, 
+                y: this.frame.y
+            },
+            max: {
+                x: this.view.width + this.frame.x, 
+                y: this.view.height + this.frame.y
+            }
         };
     }
 }

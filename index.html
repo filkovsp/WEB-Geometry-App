@@ -44,6 +44,17 @@
             <label for="zoom">Zoom Factor: </label>
             <input type="text" name="zoom" size="5" value="1.00"></input>
         </div>
+        <div class="tracer-curve">
+            <label for="curve_type">Curve Type: </label>
+            <select name="curve_type" id="curve_type">
+                <option value="" selected>choose curve</option>
+                <option value="0">sin(x)</option>
+                <option value="1">cos(x)</option>
+                <option value="2">x^2</option>
+                <option value="3">x^3</option>
+                <option value="4">liniar</option>
+              </select>
+        </div>
     </div>
 
     <script src="include/shape.js"></script>
@@ -76,12 +87,24 @@
              * Even handlers for shape-buttons
              */
     
-            $("#Graph").on("click", function(event){
-                shape = new Graph();
-                shape.setColor(color);
+            $("#Graph").bind("click", function(event){
+                let curve_type = $("#curve_type").find(":selected").get(0).value;
+                if (curve_type != "") {
+                    shape = new Graph(curve_type);
+                    shape.setColor(color);
+                }
+            });
+
+            $("#curve_type").bind("change", function(event){
+                if (this.value != "") {
+                    stage.clear();
+                    shape = new Graph(this.value);
+                    shape.setColor(color);
+                    $("#stage").find("#trace").click();
+                }
             });
     
-            $("#clear").on("click", function(event){
+            $("#clear").bind("click", function(event){
                 stage.clear();
             });
         
@@ -95,6 +118,7 @@
             $("#trace").bind("mousewheel", function(event) {
                 dispatcher.dispatch(event, shape);
             });
+
     
             /**
              * Trace ESC key-up event
